@@ -11,15 +11,21 @@ void GridLayouter::PlaceImages(const QVector<LayoutChar> &chars)
     int minY = INT_MAX;
     int maxW = 0;
     int maxH = 0;
+    int maxEndY = INT_MIN;
 
     foreach (const LayoutChar& c, chars)
     {
         minY = std::min(minY, c.y);
         maxW = std::max(maxW, c.x + c.w);
         maxH = std::max(maxH, c.h);
+        maxEndY = std::max(maxEndY, c.y+c.h);
     }
-    maxH -= minY;
-
+    //maxH -= minY;
+    if (minY>0){
+        printf("warning: wut\n");
+    }
+    maxH = std::abs(minY) - maxEndY*-1; 
+    
     calculateSize(maxW, maxH, chars.size());
 
     int w = width();
